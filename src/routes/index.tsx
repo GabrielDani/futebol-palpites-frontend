@@ -1,13 +1,16 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Login from "../pages/Login.tsx";
+import { PrivateRoute } from "./PrivateRoute.tsx";
 
 const AppRoutes = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+
+      <Route element={<PrivateRoute />}>
+        <Route path="/" element={<>Home</>} />
+      </Route>
+    </Routes>
   );
 };
 

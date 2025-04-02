@@ -1,20 +1,27 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaUser, FaLock } from "react-icons/fa";
 import { Input } from "./Input";
 import { Button } from "./Button";
+import { AuthContext } from "../contexts/AuthContext";
 
 export const LoginForm = () => {
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const auth = useContext(AuthContext);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
+    try {
+      await auth?.login(nickname, password);
+      alert("Login bem-sucedido");
+    } catch (error) {
+      console.log(error);
+      alert("Erro ao fazer login");
+    } finally {
       setLoading(false);
-      alert("Login bem-sucedido!");
-    }, 2000);
+    }
   };
 
   return (
