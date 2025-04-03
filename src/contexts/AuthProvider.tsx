@@ -1,19 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
-import { api } from "../services/api";
-import { AuthContext } from "./AuthContext";
 import { useNavigate } from "react-router-dom";
-
-interface User {
-  id: string;
-  nickname: string;
-}
+import { AuthService, LoginParams, UserData } from "../services/authService";
+import { api } from "../services/api";
+import { AuthContext } from "../contexts/AuthContext";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    !!localStorage.getItem("token")
-  );
+  const [user, setUser] = useState<UserData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = useCallback(() => {
@@ -21,57 +15,60 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     sessionStorage.removeItem("refreshToken");
     api.defaults.headers.common["Authorization"] = "";
     setUser(null);
-    navigate("/login");
+    setIsLoading(false);
+    setIsAuthenticated(false);
+    navigate("/");
+    console.log("HandleLogout navegou /");
   }, [navigate]);
 
   useEffect(() => {
-    setLoading(true);
-
     const token = localStorage.getItem("token");
     const refreshToken = sessionStorage.getItem("refreshToken");
 
     if (!token && !refreshToken) {
-      api.defaults.headers.common["Authorization"] = "";
       setUser(null);
-      setLoading(false);
+      setIsLoading(false);
+      setIsAuthenticated(false);
       return;
     }
 
     const validateAuth = async () => {
       try {
         api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        const { data } = await api.get("user/me");
-        setUser(data);
-      } catch {
+        const userData = await AuthService.getUser();
+        setUser(userData);
+        setIsAuthenticated(true);
+      } catch (error) {
+        console.error("Erro ao validar autenticação:", error);
         handleLogout();
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
     validateAuth();
   }, [handleLogout]);
 
-  useEffect(() => {
-    if (user) setIsAuthenticated(true);
-    else setIsAuthenticated(false);
-  }, [user]);
-
-  const login = async (nickname: string, password: string) => {
-    const { data } = await api.post("auth/login", { nickname, password });
-    localStorage.setItem("token", data.token);
-    sessionStorage.setItem("refreshToken", data.refreshToken);
-    api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
-    setUser(data.user);
+  const login = async (params: LoginParams) => {
+    try {
+      const { token, refreshToken, user } = await AuthService.login(params);
+      localStorage.setItem("token", token);
+      sessionStorage.setItem("refreshToken", refreshToken);
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      setUser(user);
+      setIsAuthenticated(true);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Erro ao fazer login:", error);
+      throw error;
+    }
   };
 
-  const logout = () => {
-    handleLogout();
-  };
+  const logout = handleLogout;
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, isAuthenticated, login, logout }}
+      value={{ user, isLoading, isAuthenticated, login, logout }}
     >
       {children}
     </AuthContext.Provider>
