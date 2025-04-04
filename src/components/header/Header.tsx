@@ -1,9 +1,14 @@
-import { useContext } from "react";
-import { Link } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 export const Header = () => {
-  const auth = useContext(AuthContext);
+  const { logout, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
     <header className="flex justify-between items-center py-4 px-6 bg-gray-800 text-white">
@@ -11,10 +16,10 @@ export const Header = () => {
         <h1 className="text-2xl font-bold">Bolão de Futebol</h1>
       </Link>
       <nav>
-        {auth?.isAuthenticated ? (
+        {isAuthenticated ? (
           <button
             className="bg-red-500 px-4 py-2 rounded"
-            onClick={auth?.logout}
+            onClick={handleLogout}
           >
             Sair
           </button>

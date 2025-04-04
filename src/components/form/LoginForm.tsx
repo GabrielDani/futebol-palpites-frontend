@@ -1,24 +1,27 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { FaUser, FaLock, FaExclamationCircle } from "react-icons/fa";
 import { Input } from "../input/Input";
 import { Button } from "../button/Button";
-import { AuthContext } from "../../contexts/AuthContext";
 import { handleApiError } from "../../utils/handleApiError";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 const LoginForm = () => {
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const auth = useContext(AuthContext);
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await auth?.login({ nickname, password });
+      await login({ nickname, password });
+      navigate("/dashboard");
     } catch (e) {
-      console.log(e);
+      console.error("[LoginForm] ", e);
       setError(handleApiError(e));
     } finally {
       setLoading(false);

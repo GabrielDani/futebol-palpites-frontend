@@ -1,4 +1,5 @@
 import axios from "axios";
+import { TokenService } from "./tokenService";
 
 const baseUrl = "http://localhost:3000";
 
@@ -16,13 +17,12 @@ api.interceptors.response.use(
 
     // Evita loop em caso de falha no refresh
     if (originalRequest.url === "/auth/refresh" || originalRequest._retry) {
-      sessionStorage.removeItem("refreshToken");
-      localStorage.removeItem("token");
+      TokenService.clearTokens();
       return Promise.reject(error);
     }
 
     if (error.response?.status === 401) {
-      const refreshToken = sessionStorage.getItem("refreshToken");
+      const refreshToken = !TokenService.getRefreshToken();
       if (!refreshToken) {
         return Promise.reject(error);
       }
@@ -35,14 +35,13 @@ api.interceptors.response.use(
         });
         const { token } = response.data;
 
-        localStorage.setItem("token", token);
+        TokenService.setToken(token);
         api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         originalRequest.headers.Authorization = `Bearer ${token}`;
 
         return api(originalRequest);
       } catch (refreshError) {
-        sessionStorage.removeItem("refreshToken");
-        localStorage.removeItem("token");
+        TokenService.clearTokens();
         return Promise.reject(refreshError);
       }
     }

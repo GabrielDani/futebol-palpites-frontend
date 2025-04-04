@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { api } from "../../services/api";
 import { Input } from "../input/Input";
 import { Button } from "../button/Button";
 import { handleApiError } from "../../utils/handleApiError";
 import { FaExclamationCircle } from "react-icons/fa";
+import { AuthService } from "../../services/authService";
 
 const RegisterForm = () => {
   const [nickname, setNickname] = useState("");
@@ -24,9 +24,10 @@ const RegisterForm = () => {
 
     setLoading(true);
     try {
-      await api.post("user", { nickname, password });
+      await AuthService.register({ nickname, password });
       navigate("/login");
     } catch (e) {
+      console.error("[RegisterForm] ", e);
       setError(handleApiError(e));
     } finally {
       setLoading(false);

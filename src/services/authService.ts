@@ -1,3 +1,4 @@
+import { LoginParams, LoginResponse, RegisterParams } from "../types/auth";
 import { api } from "./api";
 
 export const AuthService = {
@@ -6,24 +7,13 @@ export const AuthService = {
     return data;
   },
 
+  register: async (params: RegisterParams) => {
+    const data = await api.post("user", params);
+    return data;
+  },
+
   getUser: async () => {
     const { data } = await api.get("user/me");
     return data;
   },
 };
-
-export interface UserData {
-  id: string;
-  nickname: string;
-}
-
-export interface LoginParams {
-  nickname: string;
-  password: string;
-}
-
-interface LoginResponse {
-  token: string;
-  refreshToken: string;
-  user: UserData;
-}
