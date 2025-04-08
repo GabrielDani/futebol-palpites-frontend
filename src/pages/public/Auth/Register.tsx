@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import RegisterForm from "../../../components/form/RegisterForm";
-import { Header } from "../../../components/header/Header";
+import { Header } from "../../../components/layout/Header";
 
 export const Register = () => {
   return (

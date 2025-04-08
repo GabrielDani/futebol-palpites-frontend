@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
 import LoginForm from "../../../components/form/LoginForm";
-import { Header } from "../../../components/header/Header";
+import { PageLayout } from "../../../components/layout/PageLayout";
 
 export const Login = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-900 text-white">
-      <Header />
-
+    <PageLayout>
       <main className="flex flex-1 items-center justify-center p-4">
         {" "}
         <div className="bg-gray-800 p-8 rounded-xl shadow-lg w-full max-w-[24rem]">
@@ -34,7 +32,7 @@ export const Login = () => {
           </nav>
         </div>
       </main>
-    </div>
+    </PageLayout>
   );
 };
 

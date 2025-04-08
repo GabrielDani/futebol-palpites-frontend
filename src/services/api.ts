@@ -13,17 +13,20 @@ export const api = axios.create({
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
+    console.log("[api interceptor] Erro: ", error);
     const originalRequest = error.config;
 
     // Evita loop em caso de falha no refresh
     if (originalRequest.url === "/auth/refresh" || originalRequest._retry) {
+      console.log("[api interceptor] Falha no refresh, limpando tokens...");
       TokenService.clearTokens();
       return Promise.reject(error);
     }
 
     if (error.response?.status === 401) {
-      const refreshToken = !TokenService.getRefreshToken();
+      const refreshToken = TokenService.getRefreshToken();
       if (!refreshToken) {
+        console.log("[api interceptor] RefreshToken não encontrado.");
         return Promise.reject(error);
       }
 
@@ -34,6 +37,7 @@ api.interceptors.response.use(
           refreshToken,
         });
         const { token } = response.data;
+        console.log("[api interceptor] Novo token: ", token);
 
         TokenService.setToken(token);
         api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -41,6 +45,9 @@ api.interceptors.response.use(
 
         return api(originalRequest);
       } catch (refreshError) {
+        console.log(
+          "[api interceptor] Falha no refresh (catch), limpando tokens..."
+        );
         TokenService.clearTokens();
         return Promise.reject(refreshError);
       }

@@ -8,6 +8,7 @@ export const handleApiError = (error: unknown): string => {
   const { status, data } = error.response;
 
   if (typeof data?.error === "string") {
+    console.log("[handleApiError] ", data.error);
     return data.error;
   }
 

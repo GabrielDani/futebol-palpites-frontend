@@ -21,7 +21,7 @@ const LoginForm = () => {
       await login({ nickname, password });
       navigate("/dashboard");
     } catch (e) {
-      console.error("[LoginForm] ", e);
+      console.error("[LoginForm] Erro no Login: ", e);
       setError(handleApiError(e));
     } finally {
       setLoading(false);

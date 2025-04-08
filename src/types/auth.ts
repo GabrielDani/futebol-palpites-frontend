@@ -1,8 +1,8 @@
 // src/types/auth.ts
 export type UserData = {
   id: string;
-  email: string;
-  name: string;
+  nickname: string;
+  role: string;
 };
 
 export type LoginParams = {

@@ -4,7 +4,7 @@ import Login from "../pages/public/Auth/Login.tsx";
 import Register from "../pages/public/Auth/Register.tsx";
 import { PrivateRoute } from "./PrivateRoute.tsx";
 import { PublicRoute } from "./PublicRoute.tsx";
-import Dashboard from "../pages/private/Dashboard.tsx";
+import { Dashboard } from "../pages/private/Dashboard.tsx";
 
 const AppRoutes = () => {
   return (

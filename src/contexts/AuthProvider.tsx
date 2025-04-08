@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { AuthService } from "../services/authService";
 import { api } from "../services/api";
 import { AuthContext } from "../contexts/AuthContext";
@@ -25,14 +25,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     });
   });
 
-  const stableLogout = useCallback(() => {
-    logout();
-  }, [logout]);
-
   useEffect(() => {
+    console.log("[AuthProvider] useEffect [setUser, setIsLoading, logout]");
     const validateAuth = async () => {
       try {
-        setIsLoading(true);
         console.log("[AuthProvider] Validando autenticação...");
         const token = TokenService.getToken();
         if (!token) return;
@@ -41,15 +37,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const userData = await AuthService.getUser();
         setUser(userData);
       } catch (error) {
-        console.error("Erro ao validar autenticação:", error);
-        stableLogout();
+        console.error("[AuthProvider] Erro de autenticação: ", error);
+        logout();
       } finally {
         setIsLoading(false);
       }
     };
 
     validateAuth();
-  }, [setUser, setIsLoading, stableLogout]);
+  }, [setUser, setIsLoading, logout]);
 
   return (
     <AuthContext.Provider
