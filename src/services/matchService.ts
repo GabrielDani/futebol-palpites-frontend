@@ -14,4 +14,10 @@ export const MatchService = {
     console.log("[MatchService] Partidas encontradas: ", data);
     return data;
   },
+  getMatchesByRound: async (round: number): Promise<Match[]> => {
+    console.log(`[MatchService] Buscando partidas do round ${round}...`);
+    const { data } = await api.get(`matches/round/${round}`);
+    console.log(`[MatchService] Partidas encontradas do round ${round}`, data);
+    return data;
+  },
 };

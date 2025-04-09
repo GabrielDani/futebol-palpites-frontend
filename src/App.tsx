@@ -1,11 +1,7 @@
 import AppRoutes from "./routes";
 
 const App = () => {
-  return (
-    <div className="overflow-x-hidden">
-      <AppRoutes />
-    </div>
-  );
+  return <AppRoutes />;
 };
 
 export default App;

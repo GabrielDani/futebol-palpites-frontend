@@ -5,6 +5,7 @@ import Register from "../pages/public/Auth/Register.tsx";
 import { PrivateRoute } from "./PrivateRoute.tsx";
 import { PublicRoute } from "./PublicRoute.tsx";
 import { Dashboard } from "../pages/private/Dashboard.tsx";
+import { Guess } from "../pages/private/Guess.tsx";
 
 const AppRoutes = () => {
   return (
@@ -16,7 +17,8 @@ const AppRoutes = () => {
       </Route>
 
       <Route element={<PrivateRoute />}>
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/palpites" element={<Guess />} />
       </Route>
     </Routes>
   );

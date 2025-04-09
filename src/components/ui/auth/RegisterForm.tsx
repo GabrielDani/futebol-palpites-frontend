@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Input } from "../input/Input";
-import { Button } from "../button/Button";
-import { handleApiError } from "../../utils/handleApiError";
+import { Input } from "../Input";
+import { Button } from "../Button";
+import { handleApiError } from "../../../utils/handleApiError";
 import { FaExclamationCircle } from "react-icons/fa";
-import { AuthService } from "../../services/authService";
+import { AuthService } from "../../../services/authService";
 
 const RegisterForm = () => {
   const [nickname, setNickname] = useState("");
