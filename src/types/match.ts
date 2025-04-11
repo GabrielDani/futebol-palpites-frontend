@@ -15,3 +15,10 @@ export type Match = {
   homeTeam: Team;
   awayTeam: Team;
 };
+
+export type MatchFormData = {
+  homeTeam: string;
+  awayTeam: string;
+  date?: string;
+  round: number;
+};

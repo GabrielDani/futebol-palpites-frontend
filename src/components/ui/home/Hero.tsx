@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export const Hero = () => {
   return (
-    <section className="flex-1 flex flex-col items-center justify-center text-center px-4">
+    <section className="flex flex-1 flex-col items-center justify-center text-center px-4 py-8">
       <h2 className="text-4xl font-bold mb-4">
         Participe do melhor bolão do Brasileirão!
       </h2>

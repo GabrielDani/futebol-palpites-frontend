@@ -6,7 +6,7 @@ import { handleApiError } from "../../../utils/handleApiError";
 import { FaExclamationCircle } from "react-icons/fa";
 import { AuthService } from "../../../services/authService";
 
-const RegisterForm = () => {
+export const RegisterForm = () => {
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -72,5 +72,3 @@ const RegisterForm = () => {
     </form>
   );
 };
-
-export default RegisterForm;

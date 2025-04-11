@@ -6,7 +6,7 @@ import { handleApiError } from "../../../utils/handleApiError";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
 
-const LoginForm = () => {
+export const LoginForm = () => {
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -60,5 +60,3 @@ const LoginForm = () => {
     </form>
   );
 };
-
-export default LoginForm;

@@ -35,6 +35,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
         api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         const userData = await AuthService.getUser();
+        console.log(
+          "[AuthProvider][useEffect[setUser, setIsLoading, logout]] Usuário:",
+          userData
+        );
         setUser(userData);
       } catch (error) {
         console.error("[AuthProvider] Erro de autenticação: ", error);

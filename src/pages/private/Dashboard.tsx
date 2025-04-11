@@ -28,51 +28,49 @@ export const Dashboard = () => {
 
   return (
     <PageLayout>
-      <main className="flex-1 px-6 py-10 max-w-7xl mx-auto w-full">
-        <Greetings />
+      <Greetings />
 
-        <MatchesCarousel
-          items={matches}
-          loading={loading}
-          title="Próximos Jogos"
-          titleIcon={<Clock10 className="text-yellow-400" size={22} />}
-          renderItem={(match) => <MatchCard data={match} />}
-          carouselSettings={{
-            slidesToShow: 3,
-            responsive: [
-              {
-                breakpoint: 1024,
-                settings: { slidesToShow: 2 },
-              },
-              {
-                breakpoint: 768,
-                settings: { slidesToShow: 1 },
-              },
-            ],
-          }}
+      <MatchesCarousel
+        items={matches}
+        loading={loading}
+        title="Próximos Jogos"
+        titleIcon={<Clock10 className="text-yellow-400" size={22} />}
+        renderItem={(match) => <MatchCard data={match} />}
+        carouselSettings={{
+          slidesToShow: 3,
+          responsive: [
+            {
+              breakpoint: 1024,
+              settings: { slidesToShow: 2 },
+            },
+            {
+              breakpoint: 768,
+              settings: { slidesToShow: 1 },
+            },
+          ],
+        }}
+      />
+      <Section
+        bgColor="transparent"
+        spacing={{ padding: "py-16 px-8", gap: "gap-4" }}
+        gridClass="grid grid-cols-1 md:grid-cols-3"
+      >
+        <FeatureCard
+          title="Palpites"
+          description="Dê seus palpites nos jogos e acompanhe os resultados em tempo real."
+          to="/palpites"
         />
-        <Section
-          bgColor="transparent"
-          spacing={{ padding: "py-16 px-8", gap: "gap-4" }}
-          gridClass="grid grid-cols-1 md:grid-cols-3"
-        >
-          <FeatureCard
-            title="Palpites"
-            description="Dê seus palpites nos jogos e acompanhe os resultados em tempo real."
-            to="/palpites"
-          />
-          <FeatureCard
-            title="Criar ou Entrar em Grupo"
-            description="Participe de grupos com seus amigos e dispute quem acerta mais palpites!"
-            to="/grupos"
-          />
-          <FeatureCard
-            title="Ver Ranking"
-            description="Acompanhe sua pontuação e veja quem está no topo do ranking."
-            to="/ranking"
-          />
-        </Section>
-      </main>
+        <FeatureCard
+          title="Criar ou Entrar em Grupo"
+          description="Participe de grupos com seus amigos e dispute quem acerta mais palpites!"
+          to="/grupos"
+        />
+        <FeatureCard
+          title="Ver Ranking"
+          description="Acompanhe sua pontuação e veja quem está no topo do ranking."
+          to="/ranking"
+        />
+      </Section>
     </PageLayout>
   );
 };
