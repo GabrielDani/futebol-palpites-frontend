@@ -27,7 +27,7 @@ const adminHeaderConfig: HeaderProps = {
   ],
   headerClassName:
     "sticky top-0 z-50 bg-indigo-900 border-b border-indigo-700 backdrop-blur-sm bg-opacity-90",
-  containerClassName: "mx-auto max-w-8xl px-4 sm:px-6 lg:px-8",
+  containerClassName: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8",
 };
 
 const authenticatedHeaderConfig: HeaderProps = {
@@ -88,7 +88,7 @@ type PageLayoutProps = {
 export const PageLayout = ({
   children,
   layoutClassName,
-  mainContentClassName = "flex flex-col flex-1 px-6 py-10 w-full",
+  mainContentClassName = "flex flex-col flex-1 px-6 w-full",
   contentContainerClassName = "max-w-7xl mx-auto",
   showHeader = true,
 }: PageLayoutProps) => {
@@ -122,17 +122,11 @@ export const PageLayout = ({
     }
   };
 
-  const getContainerClass = () => {
-    return routeType === RouteType.ADMIN
-      ? "max-w-8xl mx-auto"
-      : contentContainerClassName;
-  };
-
   console.log("[PageLayout] RouteType:", routeType);
   return (
     <div className={getLayoutClass()}>
       {showHeader && <Header {...getBaseConfig()} />}
-      <main className={`${mainContentClassName} ${getContainerClass()}`}>
+      <main className={`${mainContentClassName} ${contentContainerClassName}`}>
         {children}
       </main>
     </div>

@@ -1,5 +1,5 @@
 import { Hero } from "../../components/ui/home/Hero";
-import { FeatureCard } from "../../components/ui/FeatureCard";
+import { FeatureCard } from "../../components/common/FeatureCard";
 import { Section } from "../../components/ui/Section";
 import { Footer } from "../../components/ui/home/Footer";
 import { PageLayout } from "../../components/layout/PageLayout";
@@ -12,17 +12,17 @@ export const Home = () => {
         <FeatureCard
           title="Criação de Grupos"
           description="Monte seu grupo e convide amigos para participar."
-          highlightColor="text-gray-300"
+          highlight="gray"
         />
         <FeatureCard
           title="Palpite nos Jogos"
           description="Dê seus palpites e acompanhe os resultados ao vivo."
-          highlightColor="text-gray-300"
+          highlight="gray"
         />
         <FeatureCard
           title="Ranking Competitivo"
           description="Veja quem lidera e desafie seus amigos."
-          highlightColor="text-gray-300"
+          highlight="gray"
         />
       </Section>
 

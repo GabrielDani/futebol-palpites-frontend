@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { FaUser, FaLock, FaExclamationCircle } from "react-icons/fa";
-import { Input } from "../Input";
-import { Button } from "../Button";
 import { handleApiError } from "../../../utils/handleApiError";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
+import { Button } from "../Button";
+import { InputAuth } from "./InputAuth";
 
 export const LoginForm = () => {
   const [nickname, setNickname] = useState("");
@@ -30,19 +30,17 @@ export const LoginForm = () => {
 
   return (
     <form onSubmit={handleLogin} className="flex flex-col space-y-4">
-      <Input
+      <InputAuth
         type="text"
         placeholder="Nickname"
-        className="mr-10"
         value={nickname}
         onChange={(e) => setNickname(e.target.value)}
         icon={<FaUser />}
         required
       />
-      <Input
+      <InputAuth
         type="password"
         placeholder="Senha"
-        className="mr-10"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         icon={<FaLock />}

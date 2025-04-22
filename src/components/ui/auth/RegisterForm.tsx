@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Input } from "../Input";
-import { Button } from "../Button";
 import { handleApiError } from "../../../utils/handleApiError";
 import { FaExclamationCircle } from "react-icons/fa";
 import { AuthService } from "../../../services/authService";
+import { Button } from "../Button";
+import { InputAuth } from "./InputAuth";
 
 export const RegisterForm = () => {
   const [nickname, setNickname] = useState("");
@@ -36,7 +36,7 @@ export const RegisterForm = () => {
 
   return (
     <form onSubmit={handleRegister} className="flex flex-col space-y-4">
-      <Input
+      <InputAuth
         type="text"
         placeholder="Nickname"
         variant="minimal"
@@ -44,18 +44,20 @@ export const RegisterForm = () => {
         onChange={(e) => setNickname(e.target.value)}
         required
       />
-      <Input
+      <InputAuth
         type="password"
         placeholder="Senha"
         variant="minimal"
+        canShowPassword={false}
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
       />
-      <Input
+      <InputAuth
         type="password"
         placeholder="Confirmar senha"
         variant="minimal"
+        canShowPassword={false}
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
         required

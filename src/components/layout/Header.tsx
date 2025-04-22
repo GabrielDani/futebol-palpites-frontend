@@ -31,7 +31,7 @@ export const Header = ({
 }: HeaderProps) => {
   const { user } = useAuth();
   return (
-    <header className={headerClassName}>
+    <header className={`${headerClassName} mb-8`}>
       <div className={containerClassName}>
         <div className="flex h-16 items-center justify-between">
           {/* Logo e Título */}

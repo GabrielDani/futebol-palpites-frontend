@@ -4,14 +4,16 @@ import { MatchService } from "../../services/matchService";
 import { MatchesCarousel } from "../../components/ui/matches/MatchesCarousel";
 import { PageLayout } from "../../components/layout/PageLayout";
 import { Greetings } from "../../components/ui/dashboard/Greeting";
-import { FeatureCard } from "../../components/ui/FeatureCard";
+import { FeatureCard } from "../../components/common/FeatureCard";
 import { Section } from "../../components/ui/Section";
 import { Clock10 } from "lucide-react";
 import { MatchCard } from "../../components/ui/matches/MatchCard";
+import { useNavigate } from "react-router-dom";
 
 export const Dashboard = () => {
   const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     MatchService.nextMatches(10)
@@ -58,17 +60,17 @@ export const Dashboard = () => {
         <FeatureCard
           title="Palpites"
           description="Dê seus palpites nos jogos e acompanhe os resultados em tempo real."
-          to="/palpites"
+          onClick={() => navigate("/palpites")}
         />
         <FeatureCard
           title="Criar ou Entrar em Grupo"
           description="Participe de grupos com seus amigos e dispute quem acerta mais palpites!"
-          to="/grupos"
+          onClick={() => navigate("/grupos")}
         />
         <FeatureCard
           title="Ver Ranking"
           description="Acompanhe sua pontuação e veja quem está no topo do ranking."
-          to="/ranking"
+          onClick={() => navigate("/ranking")}
         />
       </Section>
     </PageLayout>

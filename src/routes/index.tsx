@@ -8,9 +8,10 @@ import { PublicRoute } from "./PublicRoute.tsx";
 import { Dashboard } from "../pages/private/Dashboard.tsx";
 import { Guess } from "../pages/private/Guess.tsx";
 import { AdminRoute } from "./AdminRoute.tsx";
-import { AdminDashboard } from "../pages/admin/AdminDashboard.tsx";
+import { AdminDashboard } from "../pages/admin/dashboard/AdminDashboard.tsx";
 import { RouteTypeProvider } from "../contexts/RouteTypeProvider.tsx";
 import { RouteType } from "../types/route.ts";
+import { MatchesManager } from "../pages/admin/Matches/index.tsx";
 
 const AppRoutes = () => {
   return (
@@ -49,6 +50,7 @@ const AppRoutes = () => {
         }
       >
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/matches" element={<MatchesManager />} />
       </Route>
     </Routes>
   );

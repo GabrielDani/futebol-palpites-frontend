@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Section } from "../../components/ui/Section";
-import { Button } from "../../components/ui/Button";
 import { PageLayout } from "../../components/layout/PageLayout";
 import { GuessGreatings } from "../../components/ui/guess/components/GuessGreatings";
 import { RoundControls } from "../../components/ui/guess/components/RoundControls";
 import { GuessService } from "../../services/guessService";
 import { MatchPrediction } from "../../types/guess";
 import { GuessCard } from "../../components/ui/guess/GuessCard";
+import { Button } from "../../components/ui/Button";
 
 export const Guess = () => {
   const [currentRound, setCurrentRound] = useState(1);

@@ -1,7 +1,7 @@
 // contexts/RouteTypeContext.tsx
 import { createContext } from "react";
-import { RouteType, RouteTypeContextType } from "../types/route";
+import { RouteTypeContextType } from "../types/route";
 
-export const RouteTypeContext = createContext<RouteTypeContextType>({
-  routeType: RouteType.PUBLIC,
-});
+export const RouteTypeContext = createContext<RouteTypeContextType>(
+  {} as RouteTypeContextType
+);

@@ -4,14 +4,16 @@ type RoundControlsProps = {
   currentRound: number;
   onPrev: () => void;
   onNext: () => void;
+  className?: string;
 };
 
 export const RoundControls = ({
   currentRound,
   onPrev,
   onNext,
+  className,
 }: RoundControlsProps) => (
-  <div className="flex justify-between items-center">
+  <div className={`flex justify-between items-center ${className}`}>
     <h2 className="text-xl font-semibold">Rodada {currentRound}</h2>
     <div className="flex gap-4">
       <button
