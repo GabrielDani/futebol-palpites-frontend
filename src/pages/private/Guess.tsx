@@ -1,100 +1,32 @@
-import { useEffect, useState } from "react";
+// pages/Guess.tsx
 import { Section } from "../../components/ui/Section";
 import { PageLayout } from "../../components/layout/PageLayout";
 import { GuessGreatings } from "../../components/ui/guess/components/GuessGreatings";
 import { RoundControls } from "../../components/ui/guess/components/RoundControls";
-import { GuessService } from "../../services/guessService";
-import { MatchPrediction } from "../../types/guess";
 import { GuessCard } from "../../components/ui/guess/GuessCard";
 import { Button } from "../../components/ui/Button";
+import { useGuess } from "../../hooks/useGuess";
+import { StandingsTable } from "../../components/common/StandingTable";
+import { useState } from "react";
+import { Switch } from "../../components/ui/Switch";
 
 export const Guess = () => {
-  const [currentRound, setCurrentRound] = useState(1);
-  const [matchesPrediction, setMatchesPrediction] = useState<MatchPrediction[]>(
-    []
+  const {
+    currentRound,
+    matchesPrediction,
+    loading,
+    standings,
+    nextRound,
+    prevRound,
+    handlePredictionChange,
+    submitPredictions,
+  } = useGuess();
+
+  const [showUserPredictions, setShowUserPredictions] = useState(true);
+
+  const currentRoundMatches = matchesPrediction.filter(
+    (mp) => mp.match.round === currentRound
   );
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const getAllMatchesPrediction = async () => {
-      try {
-        setLoading(true);
-        const matchesPredictionData = await GuessService.findMyGuesses();
-        setMatchesPrediction(matchesPredictionData);
-      } catch (error) {
-        console.log("[Guess][useEffect] Erro ao carregar partidas:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getAllMatchesPrediction();
-  }, []);
-
-  const nextRound = () => {
-    if (currentRound < 38) {
-      const newRound = currentRound + 1;
-      setCurrentRound(newRound);
-    }
-  };
-
-  const prevRound = () => {
-    if (currentRound > 1) {
-      const newRound = currentRound - 1;
-      setCurrentRound(newRound);
-    }
-  };
-
-  const handlePredictionChange = (
-    matchId: string,
-    team: "home" | "away",
-    value?: number
-  ) => {
-    setMatchesPrediction((prevPredictions) =>
-      prevPredictions.map((prediction) => {
-        if (prediction.match.id === matchId) {
-          return {
-            ...prediction,
-            guess: {
-              ...(prediction.guess || {
-                scoreHome: undefined,
-                scoreAway: undefined,
-              }),
-              [team === "home" ? "scoreHome" : "scoreAway"]: value,
-            },
-          };
-        }
-        return prediction;
-      })
-    );
-  };
-
-  const submitPredictions = () => {
-    clearEmptyPredictions();
-    console.log(
-      "[Guess][submitPredictions] Palpites enviados:",
-      matchesPrediction.filter((m) => m.guess)
-    );
-    // Aqui você implementaria a lógica para enviar ao backend
-    alert("Palpites enviados com sucesso!");
-  };
-
-  const clearEmptyPredictions = () => {
-    setMatchesPrediction((prevPredictions) =>
-      prevPredictions.map((prediction) => {
-        if (
-          prediction.guess &&
-          (!prediction.guess.scoreAway || !prediction.guess.scoreHome)
-        ) {
-          return {
-            ...prediction,
-            guess: undefined,
-          };
-        }
-        return prediction;
-      })
-    );
-  };
 
   return (
     <PageLayout>
@@ -115,37 +47,39 @@ export const Guess = () => {
             onPrev={prevRound}
           />
 
+          <div className="flex flex-col mt-4 items-end">
+            <Switch
+              checked={showUserPredictions}
+              onChange={() => setShowUserPredictions(!showUserPredictions)}
+              labelChecked="Palpites"
+              labelUnchecked="Placares"
+            />
+          </div>
+
           {loading ? (
-            <div className="text-center py-12">
-              <span className="text-yellow-400 animate-pulse">
-                Carregando jogos...
-              </span>
-            </div>
+            <>Carregando jogos...</>
           ) : (
-            <Section gridClass="grid grid-cols-1 md:grid-cols-2">
-              {matchesPrediction
-                .filter((mp) => mp.match.round === currentRound)
-                .map((mp) => (
+            <>
+              <Section gridClass="grid grid-cols-1 md:grid-cols-2">
+                {currentRoundMatches.map((mp) => (
                   <GuessCard
                     key={mp.match.id}
                     matchPrediction={mp}
-                    onScoreChange={(team, value) =>
-                      handlePredictionChange(mp.match.id, team, value)
-                    }
+                    showUserPrediction={showUserPredictions}
+                    onScoreChange={handlePredictionChange}
                   />
                 ))}
-            </Section>
+              </Section>
+
+              <div className="flex justify-center">
+                <Button onClick={submitPredictions} variant="create" size="lg">
+                  Enviar Palpites
+                </Button>
+              </div>
+            </>
           )}
         </Section>
-
-        <div className="flex justify-center">
-          <Button
-            onClick={submitPredictions}
-            className="px-8 py-3 bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold"
-          >
-            Enviar Palpites
-          </Button>
-        </div>
+        <StandingsTable standings={standings} />
       </Section>
     </PageLayout>
   );

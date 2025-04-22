@@ -22,7 +22,7 @@ export const MatchScore = ({
       {status === "FINISHED" || status === "ONGOING" ? (
         <>
           <span>{homeScore ?? "-"}</span>
-          <span className="mx-1">vs</span>
+          <span className="mx-1">x</span>
           <span>{awayScore ?? "-"}</span>
         </>
       ) : (

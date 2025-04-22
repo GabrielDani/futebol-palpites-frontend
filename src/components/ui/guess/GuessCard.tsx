@@ -3,17 +3,23 @@ import { formatMatchDate } from "../../../utils/dateUtils";
 import { MatchScore } from "../matches/components/MatchScore";
 import { MatchStatusBadge } from "../matches/components/MatchStatusBadge";
 import { TeamInfo } from "../team/TeamInfo";
-import { PredictionInputs } from "./components/PredictionInput";
+import { PredictionInputs } from "./components/PredictionInputs";
 
 type GuessCardProps = {
   matchPrediction: MatchPrediction;
+  showUserPrediction: boolean;
   variant?: "default" | "compact" | "detailed";
-  onScoreChange?: (team: "home" | "away", value?: number) => void;
+  onScoreChange?: (
+    matchId: string,
+    team: "home" | "away",
+    value?: number
+  ) => void;
   className?: string;
 };
 
 export const GuessCard = ({
   matchPrediction,
+  showUserPrediction,
   variant = "default",
   onScoreChange,
   className = "",
@@ -31,6 +37,12 @@ export const GuessCard = ({
         return "p-6";
       default:
         return "p-5";
+    }
+  };
+
+  const handleScoreChange = (team: "home" | "away", value?: number) => {
+    if (onScoreChange) {
+      onScoreChange(match.id, team, value);
     }
   };
 
@@ -62,20 +74,30 @@ export const GuessCard = ({
       >
         <div className="flex justify-center items-center gap-4">
           <TeamInfo team={match.homeTeam} position="home" variant={variant} />
-          {isPending ? (
-            <PredictionInputs
-              homeScore={guess?.scoreHome}
-              awayScore={guess?.scoreAway}
-              onScoreChange={onScoreChange}
-            />
+          {showUserPrediction ? (
+            isPending ? (
+              <PredictionInputs
+                homeScore={guess?.scoreHome}
+                awayScore={guess?.scoreAway}
+                onScoreChange={handleScoreChange}
+              />
+            ) : (
+              <MatchScore
+                homeScore={guess?.scoreHome}
+                awayScore={guess?.scoreAway}
+                status={match.status}
+                footerDetail="Seu Palpite"
+              />
+            )
           ) : (
             <MatchScore
-              homeScore={guess?.scoreHome}
-              awayScore={guess?.scoreAway}
+              homeScore={match.scoreHome}
+              awayScore={match.scoreAway}
               status={match.status}
-              footerDetail="Seu Palpite"
+              footerDetail="Placar Real"
             />
           )}
+
           <TeamInfo team={match.awayTeam} position="away" variant={variant} />
         </div>
       </div>

@@ -39,7 +39,8 @@ const authenticatedHeaderConfig: HeaderProps = {
   title: { title: "Bolão de Futebol", link: "/dashboard" },
   navItems: [
     { label: "Início", path: "/" },
-    { label: "Partidas", path: "/matches" },
+    { label: "Palpites", path: "/palpites" },
+    { label: "Grupos", path: "/grupos" },
     { label: "Ranking", path: "/ranking" },
     {
       label: "Admin",

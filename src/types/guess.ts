@@ -9,3 +9,9 @@ export type MatchPrediction = {
   match: Match;
   guess?: Guess;
 };
+
+export type MatchPredictionSubmit = {
+  matchId: string;
+  scoreHome: number;
+  scoreAway: number;
+};
