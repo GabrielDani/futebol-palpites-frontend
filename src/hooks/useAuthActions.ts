@@ -24,11 +24,17 @@ export const useAuthActions = ({ setUser }: Pick<AuthState, "setUser">) => {
     [setUser]
   );
 
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
     console.log("[useAuthActions] Logout disparado.");
-    TokenService.clearTokens();
-    api.defaults.headers.common["Authorization"] = "";
-    setUser(null);
+    try {
+      await AuthService.logout(TokenService.getRefreshToken() ?? "");
+    } catch (e) {
+      console.error("[useAuthActions][logout] Erro", e);
+    } finally {
+      TokenService.clearTokens();
+      api.defaults.headers.common["Authorization"] = "";
+      setUser(null);
+    }
   }, [setUser]);
 
   return { login, logout };

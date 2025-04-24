@@ -106,7 +106,7 @@ export function Table<T>({
                 <tr
                   key={`row-${rowIndex}`}
                   className={cn(
-                    "border-b border-gray-200 hover:bg-muted/30",
+                    "border-b border-gray-200 hover:bg-yellow-700/30",
                     typeof rowClassName === "function"
                       ? rowClassName(row)
                       : rowClassName,

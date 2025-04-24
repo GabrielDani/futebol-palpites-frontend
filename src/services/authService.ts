@@ -7,6 +7,13 @@ export const AuthService = {
     return data;
   },
 
+  logout: async (refreshToken: string): Promise<void> => {
+    console.log("[AuthService][logout] Logout sendo feito...");
+    const { data } = await api.post("auth/logout", { refreshToken });
+    console.log("[AuthService][logout] Logout feito", data);
+    return data;
+  },
+
   register: async (params: RegisterParams) => {
     const data = await api.post("user", params);
     return data;
