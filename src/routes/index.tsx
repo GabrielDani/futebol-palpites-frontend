@@ -16,6 +16,7 @@ import { Groups } from "../pages/private/Groups/Groups.tsx";
 import { GroupDetails } from "../pages/private/GroupDetails/GroupDetails.tsx";
 import { RankingPage } from "../pages/private/Ranking/RankingPage.tsx";
 import { NotFoundPage } from "../components/layout/NotFoundPage.tsx";
+import { FailedBackend } from "../pages/public/FailedBackend.tsx";
 
 const AppRoutes = () => {
   return (
@@ -31,6 +32,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/failed-backend" element={<FailedBackend />} />
       </Route>
 
       {/* Rotas Privadas */}

@@ -29,6 +29,7 @@ export const RegisterForm = () => {
     } catch (e) {
       console.error("[RegisterForm] ", e);
       setError(handleApiError(e));
+      navigate("/failed-backend");
     } finally {
       setLoading(false);
     }

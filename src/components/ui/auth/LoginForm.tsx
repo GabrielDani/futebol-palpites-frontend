@@ -23,6 +23,7 @@ export const LoginForm = () => {
     } catch (e) {
       console.error("[LoginForm] Erro no Login: ", e);
       setError(handleApiError(e));
+      navigate("/failed-backend");
     } finally {
       setLoading(false);
     }
